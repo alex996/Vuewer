@@ -54,7 +54,7 @@
 				this.width = this.$refs.text.offsetWidth + 12 + 'px'; // span width + padding
 				this.editMode = true;
 
-				Vue.nextTick(() =>
+				this.$nextTick(() =>
 					this.$refs.name.focus() // focus the input
 				);
 			}

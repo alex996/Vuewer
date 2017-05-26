@@ -52,7 +52,7 @@
 				return this.tasks.filter(task => task.complete);
 			},
 			incompleteTasks() {
-				return this.tasks.filter(task => task.complete);
+				return this.tasks.filter(task => ! task.complete);
 			}
 		}
 

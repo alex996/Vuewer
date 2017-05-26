@@ -63,7 +63,7 @@
 
 		methods: {
 			formSubmitted() {
-				console.log('submitted');
+				// TODO: post to the server...
 			}
 		}
 
