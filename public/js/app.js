@@ -2101,10 +2101,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
 		return {
+			taskCreated: false,
 			toggleForm: false,
 			name: '',
 			complete: false
@@ -2114,7 +2119,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	methods: {
 		formSubmitted: function formSubmitted() {
-			// TODO: post to the server...
+			var _this = this;
+
+			axios.post('/api/v1/tasks', {
+				name: this.name,
+				complete: this.complete
+			}).then(function (response) {
+				_this.$emit('taskCreated', response.data);
+
+				_this.name = '';
+				_this.complete = false;
+				_this.taskCreated = true;
+
+				setTimeout(function () {
+					_this.taskCreated = false;
+					_this.toggleForm = false;
+				}, 2000);
+			}).catch(function (error) {
+				alert(error.response.data);
+			});
 		}
 	}
 
@@ -2231,6 +2254,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			return this.tasks.filter(function (task) {
 				return !task.complete;
 			});
+		}
+	},
+
+	methods: {
+		pushTaskToTasks: function pushTaskToTasks(task) {
+			this.tasks.push(task);
 		}
 	}
 
@@ -19738,7 +19767,11 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('task-header'), _vm._v(" "), _c('task-list', {
+  return _c('div', [_c('task-header', {
+    on: {
+      "taskCreated": _vm.pushTaskToTasks
+    }
+  }), _vm._v(" "), _c('task-list', {
     attrs: {
       "tasks": _vm.tasks
     }
@@ -19953,7 +19986,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "columns"
   }, [_c('div', {
     staticClass: "column is-4"
-  }, [_c('h1', {
+  }, [_c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.taskCreated),
+      expression: "taskCreated"
+    }],
+    staticClass: "notification is-success"
+  }, [_c('button', {
+    staticClass: "delete"
+  }), _vm._v("\n\t\t\t\t\t\tSuccess! Task was created.\n\t\t\t\t\t")]), _vm._v(" "), _c('h1', {
     staticClass: "title"
   }, [_vm._v("Create a Task")]), _vm._v(" "), _c('form', {
     on: {

@@ -23,6 +23,10 @@
 			<div class="container">
 				<div class="columns">
 					<div class="column is-4">
+						<div class="notification is-success" v-show="taskCreated">
+							<button class="delete"></button>
+							Success! Task was created.
+						</div>
 						<h1 class="title">Create a Task</h1>
 						<form @submit.prevent="formSubmitted">
 							<div class="field">
@@ -55,6 +59,7 @@
 
 		data() {
 			return {
+				taskCreated: false,
 				toggleForm: false,
 				name: '',
 				complete: false
@@ -63,7 +68,25 @@
 
 		methods: {
 			formSubmitted() {
-				// TODO: post to the server...
+				axios.post('/api/v1/tasks', {
+					name: this.name,
+					complete: this.complete
+				})
+				.then(response => {
+					this.$emit('taskCreated', response.data);
+
+					this.name = '';
+					this.complete = false;
+					this.taskCreated = true;
+
+					setTimeout(() => {
+						this.taskCreated = false;
+						this.toggleForm = false;
+					}, 2000);
+				})
+				.catch(error => {
+					alert(error.response.data);
+				});
 			}
 		}
 

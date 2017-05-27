@@ -1,7 +1,7 @@
 <template>
 
 	<div>
-		<task-header>
+		<task-header @taskCreated="pushTaskToTasks">
 		</task-header>
 		
 		<task-list :tasks="tasks">
@@ -53,6 +53,12 @@
 			},
 			incompleteTasks() {
 				return this.tasks.filter(task => ! task.complete);
+			}
+		},
+
+		methods: {
+			pushTaskToTasks(task) {
+				this.tasks.push(task);
 			}
 		}
 
