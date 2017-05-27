@@ -3,7 +3,7 @@
 		<input type="checkbox" v-model="task.complete">
 
 		<span v-if="! editMode">
-			<span ref="text">{{ task.name }}</span>
+			<span ref="taskNameText">{{ task.name }}</span>
 
 			<button class="button is-small is-info" @click="switchToEditMode">
 				<span class="icon is-small">
@@ -12,7 +12,7 @@
 			</button>
 		</span>
 		<span v-else>
-			<input class="input task-input" v-model="task.name" ref="name" @blur="editMode = false" :style="{ width: width }">
+			<input class="input task-input" v-model="task.name" ref="taskNameInput" @blur="editMode = false" :style="{ width: width }">
 
 			<button class="button is-small is-primary">
 				<span class="icon is-small">
@@ -21,7 +21,7 @@
 			</button>
 		</span>		
 
-		<button class="button is-small is-danger">
+		<button class="button is-small is-danger" @click="deleteBtnClicked">
 			<span class="icon is-small">
 				<i class="fa fa-times" aria-hidden="true"></i>
 			</span>
@@ -51,12 +51,22 @@
 
 		methods: {
 			switchToEditMode() {
-				this.width = this.$refs.text.offsetWidth + 12 + 'px'; // span width + padding
+				this.width = this.$refs.taskNameText.offsetWidth + 12 + 'px'; // span width + padding
 				this.editMode = true;
 
 				this.$nextTick(() =>
-					this.$refs.name.focus() // focus the input
+					this.$refs.taskNameInput.focus() // focus the input
 				);
+			},
+
+			deleteBtnClicked() {
+				axios.delete('/api/v1/tasks/' + this.task.id)
+				.then(response => {
+					this.$emit('taskDeleted');
+				})
+				.catch(error => {
+					alert(error.response.data);
+				});
 			}
 		}
 

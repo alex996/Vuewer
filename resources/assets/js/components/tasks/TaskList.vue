@@ -5,7 +5,8 @@
 				<slot name="title"></slot>
 			</h1>
 			<ul class="task-list">
-				<task v-for="task in taskList" :data="task" :key="task.id"></task>
+				<task v-for="(task, index) in taskList" :key="task.id" :data="task" @taskDeleted="$emit('taskDeleted', index)">	 
+				</task>
 			</ul>
 		</div>
 	</section>	
@@ -18,14 +19,8 @@
 
 		components: { Task },
 
-		data() {
-			return {
-				
-			}
-		},
-
 		props: [
-			'tasks', 'title'
+			'tasks'
 		],
 
 		computed: {

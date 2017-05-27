@@ -2031,13 +2031,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		switchToEditMode: function switchToEditMode() {
 			var _this = this;
 
-			this.width = this.$refs.text.offsetWidth + 12 + 'px'; // span width + padding
+			this.width = this.$refs.taskNameText.offsetWidth + 12 + 'px'; // span width + padding
 			this.editMode = true;
 
 			this.$nextTick(function () {
-				return _this.$refs.name.focus();
+				return _this.$refs.taskNameInput.focus();
 			} // focus the input
 			);
+		},
+		deleteBtnClicked: function deleteBtnClicked() {
+			var _this2 = this;
+
+			axios.delete('/api/v1/tasks/' + this.task.id).then(function (response) {
+				_this2.$emit('taskDeleted');
+			}).catch(function (error) {
+				alert(error.response.data);
+			});
 		}
 	}
 
@@ -2164,6 +2173,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -2171,12 +2181,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	components: { Task: __WEBPACK_IMPORTED_MODULE_0__Task_vue___default.a },
 
-	data: function data() {
-		return {};
-	},
-
-
-	props: ['tasks', 'title'],
+	props: ['tasks'],
 
 	computed: {
 		taskList: function taskList() {
@@ -2260,6 +2265,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	methods: {
 		pushTaskToTasks: function pushTaskToTasks(task) {
 			this.tasks.push(task);
+		},
+		spliceTaskFromTasks: function spliceTaskFromTasks(index) {
+			this.tasks.splice(index, 1);
 		}
 	}
 
@@ -19774,18 +19782,27 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('task-list', {
     attrs: {
       "tasks": _vm.tasks
+    },
+    on: {
+      "taskDeleted": _vm.spliceTaskFromTasks
     }
   }, [_c('template', {
     slot: "title"
   }, [_vm._v("All Tasks")])], 2), _vm._v(" "), _c('task-list', {
     attrs: {
       "tasks": _vm.incompleteTasks
+    },
+    on: {
+      "taskDeleted": _vm.spliceTaskFromTasks
     }
   }, [_c('template', {
     slot: "title"
   }, [_vm._v("Incomplete Tasks")])], 2), _vm._v(" "), _c('task-list', {
     attrs: {
       "tasks": _vm.completeTasks
+    },
+    on: {
+      "taskDeleted": _vm.spliceTaskFromTasks
     }
   }, [_c('template', {
     slot: "title"
@@ -19838,7 +19855,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }), _vm._v(" "), (!_vm.editMode) ? _c('span', [_c('span', {
-    ref: "text"
+    ref: "taskNameText"
   }, [_vm._v(_vm._s(_vm.task.name))]), _vm._v(" "), _c('button', {
     staticClass: "button is-small is-info",
     on: {
@@ -19851,7 +19868,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.task.name),
       expression: "task.name"
     }],
-    ref: "name",
+    ref: "taskNameInput",
     staticClass: "input task-input",
     style: ({
       width: _vm.width
@@ -19877,7 +19894,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "aria-hidden": "true"
     }
-  })])])]), _vm._v(" "), _vm._m(1)])
+  })])])]), _vm._v(" "), _c('button', {
+    staticClass: "button is-small is-danger",
+    on: {
+      "click": _vm.deleteBtnClicked
+    }
+  }, [_vm._m(1)])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('span', {
     staticClass: "icon is-small"
@@ -19888,16 +19910,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    staticClass: "button is-small is-danger"
-  }, [_c('span', {
+  return _c('span', {
     staticClass: "icon is-small"
   }, [_c('i', {
     staticClass: "fa fa-times",
     attrs: {
       "aria-hidden": "true"
     }
-  })])])
+  })])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -19920,11 +19940,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "title"
   }, [_vm._t("title")], 2), _vm._v(" "), _c('ul', {
     staticClass: "task-list"
-  }, _vm._l((_vm.taskList), function(task) {
+  }, _vm._l((_vm.taskList), function(task, index) {
     return _c('task', {
       key: task.id,
       attrs: {
         "data": task
+      },
+      on: {
+        "taskDeleted": function($event) {
+          _vm.$emit('taskDeleted', index)
+        }
       }
     })
   }))])])

@@ -4,15 +4,15 @@
 		<task-header @taskCreated="pushTaskToTasks">
 		</task-header>
 		
-		<task-list :tasks="tasks">
+		<task-list :tasks="tasks" @taskDeleted="spliceTaskFromTasks">
 			<template slot="title">All Tasks</template>
 		</task-list>
 
-		<task-list :tasks="incompleteTasks">
+		<task-list :tasks="incompleteTasks" @taskDeleted="spliceTaskFromTasks">
 			<template slot="title">Incomplete Tasks</template>
 		</task-list>
 
-		<task-list :tasks="completeTasks">
+		<task-list :tasks="completeTasks" @taskDeleted="spliceTaskFromTasks">
 			<template slot="title">Complete Tasks</template>
 		</task-list>
 	</div>
@@ -59,6 +59,10 @@
 		methods: {
 			pushTaskToTasks(task) {
 				this.tasks.push(task);
+			},
+
+			spliceTaskFromTasks(index) {
+				this.tasks.splice(index, 1);
 			}
 		}
 
