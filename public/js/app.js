@@ -2047,6 +2047,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			}).catch(function (error) {
 				alert(error.response.data);
 			});
+		},
+		nameInputBlurred: function nameInputBlurred() {
+			this.editMode = false;
+
+			this.taskUpdated();
+		},
+		completeCheckboxChanged: function completeCheckboxChanged() {
+			this.taskUpdated();
+		},
+		taskUpdated: function taskUpdated() {
+			axios.put('/api/v1/tasks/' + this.task.id, {
+				name: this.task.name,
+				complete: this.task.complete
+			}).catch(function (error) {
+				alert(error.response.data);
+			});
 		}
 	}
 
@@ -19837,6 +19853,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "checked": Array.isArray(_vm.task.complete) ? _vm._i(_vm.task.complete, null) > -1 : (_vm.task.complete)
     },
     on: {
+      "change": _vm.completeCheckboxChanged,
       "__c": function($event) {
         var $$a = _vm.task.complete,
           $$el = $event.target,
@@ -19877,9 +19894,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": (_vm.task.name)
     },
     on: {
-      "blur": function($event) {
-        _vm.editMode = false
-      },
+      "blur": _vm.nameInputBlurred,
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.task.name = $event.target.value
