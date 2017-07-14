@@ -12,5 +12,5 @@
 */
 
 Route::get('/', function () {
-    return view('tasks.index');
+    return view('welcome');
 });

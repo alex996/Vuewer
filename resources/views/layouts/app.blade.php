@@ -8,41 +8,14 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Vuewer') }}</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
-        <header>
-            <nav class="nav has-shadow">
-                <div class="container">
-                    <div class="nav-left">
-                        <a href="{{ url('/') }}" class="nav-item">
-                            {{ config('app.name', 'Laravel') }}
-                        </a>
-                    </div>
-                    <span class="nav-toggle">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </span>
-                    <div class="nav-right nav-menu">
-                        <a href="{{ route('login') }}" class="nav-item is-tab">
-                            Login
-                        </a>
-                        <a href="{{ route('register') }}" class="nav-item is-tab">
-                            Register
-                        </a>
-                    </div>
-                </div>
-            </nav>
-        </header>
-
-        <main>
-            @yield('content')
-        </main>
+        @yield('content')
     </div>
 
     <!-- Scripts -->
