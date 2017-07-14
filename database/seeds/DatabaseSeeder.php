@@ -2,8 +2,6 @@
 
 use Illuminate\Database\Seeder;
 
-use App\Task;
-
 class DatabaseSeeder extends Seeder
 {
     /**

@@ -1,5 +1,4 @@
 <template>
-
 	<div>
 		<task-header @taskCreated="pushTaskToTasks">
 		</task-header>
@@ -16,7 +15,6 @@
 			<template slot="title">Complete Tasks</template>
 		</task-list>
 	</div>
-
 </template>
 
 <script>
