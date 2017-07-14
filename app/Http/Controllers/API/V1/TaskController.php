@@ -33,18 +33,7 @@ class TaskController extends Controller
 
         return Task::create($request->all());
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Task  $task
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Task $task)
-    {
-        //
-    }
-
+    
     /**
      * Update the specified resource in storage.
      *
