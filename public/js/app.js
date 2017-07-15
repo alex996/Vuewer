@@ -1087,6 +1087,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+/**
+ * This is where we instantiate Vue and our Tasks component, which
+ * will display a header and three task lists. We'll render it with
+ * <tasks></tasks> in our only front-end view - welcome.blade.php.
+ */
+
 var app = new __WEBPACK_IMPORTED_MODULE_1_vue___default.a({
     el: '#app',
 
@@ -1980,6 +1986,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+/**
+ * A single task is represented here as a row with a checkbox, text, and
+ * edit/delete buttons. When edited or deleted, the task notifies the
+ * API, and when deleted, it also notifies the Tasks parent.
+ */
+
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
 		return {
@@ -2001,13 +2013,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		switchToEditMode: function switchToEditMode() {
 			var _this = this;
 
-			this.width = this.$refs.taskNameText.offsetWidth + 12 + 'px'; // span width + padding
+			// Calculate <input> size based on task name in <span> (+ some extra padding)
+			this.width = this.$refs.taskNameText.offsetWidth + 12 + 'px';
 			this.editMode = true;
 
+			// Make a timeout to give the DOM some time and then focus the <input>
 			this.$nextTick(function () {
 				return _this.$refs.taskNameInput.focus();
-			} // focus the input
-			);
+			});
 		},
 		deleteBtnClicked: function deleteBtnClicked() {
 			var _this2 = this;
@@ -2018,6 +2031,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				alert(error.response.data);
 			});
 		},
+
+
+		/**
+   * When we leave the input, we exist the edit mode. It's time
+   * to update the tasks with the API. Note that it'd be better
+   * to first check if the task name was actually modified.
+   */
 		nameInputBlurred: function nameInputBlurred() {
 			this.editMode = false;
 
@@ -2026,6 +2046,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		completeCheckboxChanged: function completeCheckboxChanged() {
 			this.taskUpdated();
 		},
+
+
+		/**
+   * You can debate whether a task should be concerned with updating its
+   * state. We could instead issue an event and delegate to our shared
+   * store to update the task. This would be easier with Vuex though.
+   */
 		taskUpdated: function taskUpdated() {
 			axios.put('/api/v1/tasks/' + this.task.id, {
 				name: this.task.name,
@@ -2101,6 +2128,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+/**
+ * This header contains a form to create new tasks. When a task is
+ * created on the back-end, the component fires off an event, so
+ * so that the Tasks parent can add it to the shared store.
+ */
+
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
 		return {
@@ -2122,8 +2155,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			}).then(function (response) {
 				_this.$emit('taskCreated', response.data);
 
+				// Reset the form
 				_this.name = '';
 				_this.complete = false;
+
+				// Show a notification and hide after 2 s
 				_this.taskCreated = true;
 
 				setTimeout(function () {
@@ -2162,6 +2198,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 
+
+/**
+ * A simple reusable list of tasks. Pass in your tasks as a prop and
+ * it will display them in a dedicated section. Note that the list
+ * also propagates the 'taskDeleted' event up to the Tasks parent.
+ */
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
@@ -2210,6 +2252,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+
+/**
+ * Tasks component acts as a "glue" for other task-related components and
+ * holds a shared store of all the tasks in our database. You can imagine
+ * how this can be easily expanded to work with Vuex instead.
+ */
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 

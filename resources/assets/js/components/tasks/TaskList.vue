@@ -15,6 +15,12 @@
 <script>
 	import Task from './Task.vue';
 
+	/**
+	 * A simple reusable list of tasks. Pass in your tasks as a prop and
+	 * it will display them in a dedicated section. Note that the list
+	 * also propagates the 'taskDeleted' event up to the Tasks parent.
+	 */
+
 	export default {
 
 		components: { Task },

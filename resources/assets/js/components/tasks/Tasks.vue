@@ -22,6 +22,11 @@
 
 	import TaskList from './TaskList.vue';
 
+	/**
+	 * Tasks component acts as a "glue" for other task-related components and
+	 * holds a shared store of all the tasks in our database. You can imagine
+	 * how this can be easily expanded to work with Vuex instead.
+	 */
 
 	export default {
 
