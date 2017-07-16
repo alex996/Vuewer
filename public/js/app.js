@@ -1985,6 +1985,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /**
  * A single task is represented here as a row with a checkbox, text, and
@@ -2010,53 +2013,59 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	methods: {
-		switchToEditMode: function switchToEditMode() {
+		editModeActivated: function editModeActivated() {
 			var _this = this;
 
 			// Calculate <input> size based on task name in <span> (+ some extra padding)
 			this.width = this.$refs.taskNameText.offsetWidth + 12 + 'px';
+			// Switch to edit mode
 			this.editMode = true;
 
-			// Make a timeout to give the DOM some time and then focus the <input>
+			// Vue uses async rendering, so the if-block will not be rendered immediately
+			// (ref. https://vuejs.org/v2/guide/reactivity.html). To wait until the
+			// <input> is available, we'll set a timeout and only then focus it.
 			this.$nextTick(function () {
 				return _this.$refs.taskNameInput.focus();
 			});
 		},
-		deleteBtnClicked: function deleteBtnClicked() {
-			var _this2 = this;
+		editModeDectivated: function editModeDectivated(event) {
+			// Remember that v-model="task.name" is equivalent to :value="task.name" and
+			// @input="task.name = event.target.value"? We don't want HTTP PUT to be
+			// triggered on every keystroke, but only when you exit the edit mode.
 
-			axios.delete('/api/v1/tasks/' + this.task.id).then(function (response) {
-				_this2.$emit('taskDeleted');
-			}).catch(function (error) {
-				alert(error.response.data);
-			});
-		},
-
-
-		/**
-   * When we leave the input, we exist the edit mode. It's time
-   * to update the tasks with the API. Note that it'd be better
-   * to first check if the task name was actually modified.
-   */
-		nameInputBlurred: function nameInputBlurred() {
+			// Exit from edit mode
 			this.editMode = false;
 
-			this.taskUpdated();
-		},
-		completeCheckboxChanged: function completeCheckboxChanged() {
-			this.taskUpdated();
+			// We'll update the task name only if it actually changed. This will also
+			// prevent the HTTP PUT from being sent twice, once on the @blur event
+			// and second on the @key presss (there could be a better way btw).
+			var newName = event.target.value;
+			if (this.task.name !== newName) {
+				this.task.name = newName;
+				this.updateTask();
+			}
 		},
 
 
 		/**
    * You can debate whether a task should be concerned with updating its
    * state. We could instead issue an event and delegate to our shared
-   * store to update the task. This would be easier with Vuex though.
+   * store to update the task. This can be done more easily with Vuex
+   * (https://github.com/alex996/Vuewer/tree/vuex).
    */
-		taskUpdated: function taskUpdated() {
+		updateTask: function updateTask() {
 			axios.put('/api/v1/tasks/' + this.task.id, {
 				name: this.task.name,
 				complete: this.task.complete
+			}).catch(function (error) {
+				alert(error.response.data);
+			});
+		},
+		daleteTask: function daleteTask() {
+			var _this2 = this;
+
+			axios.delete('/api/v1/tasks/' + this.task.id).then(function (response) {
+				_this2.$emit('taskDeleted');
 			}).catch(function (error) {
 				alert(error.response.data);
 			});
@@ -2902,7 +2911,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "checked": Array.isArray(_vm.task.complete) ? _vm._i(_vm.task.complete, null) > -1 : (_vm.task.complete)
     },
     on: {
-      "change": _vm.completeCheckboxChanged,
+      "click": _vm.updateTask,
       "__c": function($event) {
         var $$a = _vm.task.complete,
           $$el = $event.target,
@@ -2925,34 +2934,30 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v(_vm._s(_vm.task.name))]), _vm._v(" "), _c('button', {
     staticClass: "button is-small is-info",
     on: {
-      "click": _vm.switchToEditMode
+      "click": _vm.editModeActivated
     }
   }, [_vm._m(0)])]) : _c('span', [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.task.name),
-      expression: "task.name"
-    }],
     ref: "taskNameInput",
     staticClass: "input task-input",
     style: ({
       width: _vm.width
     }),
     domProps: {
-      "value": (_vm.task.name)
+      "value": _vm.task.name
     },
     on: {
-      "blur": _vm.nameInputBlurred,
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.task.name = $event.target.value
+      "blur": function($event) {
+        _vm.editModeDectivated($event)
+      },
+      "keyup": function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
+        _vm.editModeDectivated($event)
       }
     }
   }), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _c('button', {
     staticClass: "button is-small is-danger",
     on: {
-      "click": _vm.deleteBtnClicked
+      "click": _vm.daleteTask
     }
   }, [_vm._m(2)])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
