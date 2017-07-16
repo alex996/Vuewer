@@ -1,17 +1,13 @@
-# Vuewer
+![Vuewer](https://user-images.githubusercontent.com/15240969/28244455-cb01dbb4-69b9-11e7-91bc-b930b6987d64.png)
 
-Your perfect time management and goal setting assistant.
-
-## Intro
-
-This is a very minimalistic to-do app that demonstrates the use of Vue.js in Laravel. Our front-end is composed of [single-file components](https://vuejs.org/v2/guide/single-file-components.html) embedded into Blade. Whenever a task is created, updated, or deleted, we notify our back-end with an Ajax call to the API using [Axios](https://github.com/mzabriskie/axios). Among others, the codebase contains examples of parent-child communication, attribute binding, and more...
+Vuewer is meant to demonstrate basic use of Vue.js in Laravel. It makes use of [single-file components](https://vuejs.org/v2/guide/single-file-components.html) embedded into Blade and communicates with the API using [Axios](https://github.com/mzabriskie/axios). This app will show you examples of parent-child communication, attribute binding, and many more.
 
 ## Installation
 
-1. You can install the app from the command line: `git clone https://github.com/alex996/Vuewer vuewer`
-2. Make sure to create a `.env` file (use `.env.example` as a ref.)
-3. Also run `php artisan key:generate` to safeguard against cipher exceptions
-4. Once the DB credentials are in place, run `php artisan migrate --seed`
+1. Run `git clone https://github.com/alex996/Vuewer vuewer`
+2. Also run `php artisan key:generate` to safeguard against cipher exceptions
+3. Create a `.env` file and enter your DB credentials
+4. Finally, run `php artisan migrate --seed`
 5. (Optional) If you want to play with the code, don't forget `npm install`
 
 ## Note
