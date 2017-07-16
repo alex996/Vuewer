@@ -60,8 +60,8 @@
 				this.editMode = true;
 
 				// Vue uses async rendering, so the if-block will not be rendered immediately
-				// (ref. https://vuejs.org/v2/guide/reactivity.html). To wait until it does,
-				// we'll set a timeout and only then focus the <input>.
+				// (ref. https://vuejs.org/v2/guide/reactivity.html). To wait until the
+				// <input> is available, we'll set a timeout and only then focus it.
 				this.$nextTick(() =>
 					this.$refs.taskNameInput.focus()
 				);

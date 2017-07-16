@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 55);
+/******/ 	return __webpack_require__(__webpack_require__.s = 58);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -528,7 +528,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(40)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(43)))
 
 /***/ }),
 /* 3 */
@@ -606,7 +606,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(52)
+var listToStyles = __webpack_require__(55)
 
 /*
 type StyleObject = {
@@ -11149,7 +11149,7 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(54)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(57)))
 
 /***/ }),
 /* 12 */
@@ -11160,8 +11160,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap__ = __webpack_require__(35);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__store__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_tasks_Tasks_vue__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__store_store__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_tasks_Tasks_vue__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_tasks_Tasks_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_tasks_Tasks_vue__);
 
 
@@ -11171,7 +11171,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var app = new __WEBPACK_IMPORTED_MODULE_1_vue___default.a({
     el: '#app',
 
-    store: __WEBPACK_IMPORTED_MODULE_2__store__["a" /* default */],
+    store: __WEBPACK_IMPORTED_MODULE_2__store_store__["a" /* default */],
 
     components: {
         Tasks: __WEBPACK_IMPORTED_MODULE_3__components_tasks_Tasks_vue___default.a
@@ -12087,8 +12087,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.editMode = true;
 
 			// Vue uses async rendering, so the if-block will not be rendered immediately
-			// (ref. https://vuejs.org/v2/guide/reactivity.html). To wait until it does,
-			// we'll set a timeout and only then focus the <input>.
+			// (ref. https://vuejs.org/v2/guide/reactivity.html). To wait until the
+			// <input> is available, we'll set a timeout and only then focus it.
 			this.$nextTick(function () {
 				return _this.$refs.taskNameInput.focus();
 			});
@@ -12232,7 +12232,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Task_vue__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Task_vue__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Task_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Task_vue__);
 //
 //
@@ -12271,9 +12271,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__TaskHeader_vue__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__TaskHeader_vue__ = __webpack_require__(45);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__TaskHeader_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__TaskHeader_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__TaskList_vue__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__TaskList_vue__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__TaskList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__TaskList_vue__);
 //
 //
@@ -12357,31 +12357,48 @@ if (token) {
 }
 
 /***/ }),
-/* 36 */
+/* 36 */,
+/* 37 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(53);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__store_mutations__ = __webpack_require__(64);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__store_actions__ = __webpack_require__(63);
+/* harmony default export */ __webpack_exports__["a"] = ({
+	loadTasks: function loadTasks(context) {
+		axios.get('/api/v1/tasks').then(function (response) {
+			context.commit('setTasks', response.data);
+		}).catch(function (error) {
+			alert(error.response.data);
+		});
+	},
+	createTask: function createTask(context, task) {
+		axios.post('/api/v1/tasks', task).then(function (response) {
+			context.commit('createTask', response.data);
+		}).catch(function (error) {
+			alert(error.response.data);
+		});
+	},
+	updateTask: function updateTask(context, task) {
+		axios.put('/api/v1/tasks/' + task.id, task).then(function (response) {
+			context.commit('updateTask', response.data);
+		}).catch(function (error) {
+			alert(error.response.data);
+		});
+	},
+	deleteTask: function deleteTask(context, task) {
+		axios.delete('/api/v1/tasks/' + task.id).then(function (response) {
+			context.commit('deleteTask', task);
+		}).catch(function (error) {
+			alert(error.response.data);
+		});
+	}
+});
 
+/***/ }),
+/* 38 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-
-
-
-
-
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
-
-var state = {
-	tasks: []
-};
-
-var getters = {
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
 	tasks: function tasks(state) {
 		return state.tasks;
 	},
@@ -12390,43 +12407,64 @@ var getters = {
 			return task.complete;
 		});
 	},
-	incompleteTasks: function incompleteTasks() {
+	incompleteTasks: function incompleteTasks(state) {
 		return state.tasks.filter(function (task) {
 			return !task.complete;
 		});
 	}
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
-	state: state,
-	getters: getters,
-	mutations: __WEBPACK_IMPORTED_MODULE_3__store_mutations__["a" /* default */],
-	actions: __WEBPACK_IMPORTED_MODULE_4__store_actions__["a" /* default */]
-}));
+});
 
 /***/ }),
-/* 37 */
+/* 39 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+	setTasks: function setTasks(state, tasks) {
+		state.tasks = tasks;
+	},
+	createTask: function createTask(state, task) {
+		state.tasks.push(task);
+	},
+	updateTask: function updateTask(state, task) {
+		state.tasks.map(function (someTask) {
+			if (someTask.id === task.id) {
+				someTask = task;
+			}
+
+			return someTask;
+		});
+	},
+	deleteTask: function deleteTask(state, task) {
+		state.tasks = state.tasks.filter(function (someTask) {
+			return someTask.id !== task.id;
+		});
+	}
+});
+
+/***/ }),
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)();
 exports.push([module.i, "\n.task-header .task-header-hero button {\n\tborder-radius: 50%;\n}\n.task-header .task-header-form {\n\tpadding-top: 0;\n}\n", ""]);
 
 /***/ }),
-/* 38 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)();
 exports.push([module.i, "\n.task-list-section {\n\tpadding-top: 0;\n}\n.task-list-section .task-list li {\n\tmargin-bottom: 5px;\n}\n.task-list-section .task-list button {\n\tborder-radius: 50%;\n}\n", ""]);
 
 /***/ }),
-/* 39 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)();
 exports.push([module.i, "\n.task .task-input {\n\tpadding: 0 5px;\n\theight: 1.7em;\n}\n", ""]);
 
 /***/ }),
-/* 40 */
+/* 43 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -12616,18 +12654,18 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 41 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(51)
+__webpack_require__(54)
 
 var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(31),
   /* template */
-  __webpack_require__(47),
+  __webpack_require__(50),
   /* scopeId */
   null,
   /* cssModules */
@@ -12654,18 +12692,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 42 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(49)
+__webpack_require__(52)
 
 var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(32),
   /* template */
-  __webpack_require__(45),
+  __webpack_require__(48),
   /* scopeId */
   null,
   /* cssModules */
@@ -12692,18 +12730,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 43 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(50)
+__webpack_require__(53)
 
 var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(33),
   /* template */
-  __webpack_require__(46),
+  __webpack_require__(49),
   /* scopeId */
   null,
   /* cssModules */
@@ -12730,14 +12768,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 44 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(34),
   /* template */
-  __webpack_require__(48),
+  __webpack_require__(51),
   /* scopeId */
   null,
   /* cssModules */
@@ -12764,7 +12802,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 45 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -12915,7 +12953,7 @@ if (false) {
 }
 
 /***/ }),
-/* 46 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -12945,7 +12983,7 @@ if (false) {
 }
 
 /***/ }),
-/* 47 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -13053,7 +13091,7 @@ if (false) {
 }
 
 /***/ }),
-/* 48 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -13086,13 +13124,13 @@ if (false) {
 }
 
 /***/ }),
-/* 49 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(37);
+var content = __webpack_require__(40);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -13112,13 +13150,13 @@ if(false) {
 }
 
 /***/ }),
-/* 50 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(38);
+var content = __webpack_require__(41);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -13138,13 +13176,13 @@ if(false) {
 }
 
 /***/ }),
-/* 51 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(39);
+var content = __webpack_require__(42);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -13164,7 +13202,7 @@ if(false) {
 }
 
 /***/ }),
-/* 52 */
+/* 55 */
 /***/ (function(module, exports) {
 
 /**
@@ -13197,7 +13235,7 @@ module.exports = function listToStyles (parentId, list) {
 
 
 /***/ }),
-/* 53 */
+/* 56 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14010,7 +14048,7 @@ var index_esm = {
 
 
 /***/ }),
-/* 54 */
+/* 57 */
 /***/ (function(module, exports) {
 
 var g;
@@ -14037,7 +14075,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 55 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(12);
@@ -14045,75 +14083,45 @@ module.exports = __webpack_require__(13);
 
 
 /***/ }),
-/* 56 */,
-/* 57 */,
-/* 58 */,
 /* 59 */,
 /* 60 */,
 /* 61 */,
 /* 62 */,
-/* 63 */
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({
-	loadTasks: function loadTasks(context) {
-		axios.get('/api/v1/tasks').then(function (response) {
-			context.commit('setTasks', response.data);
-		}).catch(function (error) {
-			alert(error.response.data);
-		});
-	},
-	createTask: function createTask(context, task) {
-		axios.post('/api/v1/tasks', task).then(function (response) {
-			context.commit('createTask', response.data);
-		}).catch(function (error) {
-			alert(error.response.data);
-		});
-	},
-	updateTask: function updateTask(context, task) {
-		axios.put('/api/v1/tasks/' + task.id, task).then(function (response) {
-			context.commit('updateTask', response.data);
-		}).catch(function (error) {
-			alert(error.response.data);
-		});
-	},
-	deleteTask: function deleteTask(context, task) {
-		axios.delete('/api/v1/tasks/' + task.id).then(function (response) {
-			context.commit('deleteTask', task);
-		}).catch(function (error) {
-			alert(error.response.data);
-		});
-	}
-});
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__getters__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mutations__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__actions__ = __webpack_require__(37);
 
-/***/ }),
-/* 64 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-"use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({
-	setTasks: function setTasks(state, tasks) {
-		state.tasks = tasks;
-	},
-	createTask: function createTask(state, task) {
-		state.tasks.push(task);
-	},
-	updateTask: function updateTask(state, task) {
-		state.tasks.map(function (someTask) {
-			if (someTask.id === task.id) {
-				someTask = task;
-			}
 
-			return someTask;
-		});
-	},
-	deleteTask: function deleteTask(state, task) {
-		state.tasks = state.tasks.filter(function (someTask) {
-			return someTask.id !== task.id;
-		});
-	}
-});
+
+
+
+
+
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
+
+var state = {
+	tasks: []
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
+	state: state,
+	getters: __WEBPACK_IMPORTED_MODULE_3__getters__["a" /* default */],
+	mutations: __WEBPACK_IMPORTED_MODULE_4__mutations__["a" /* default */],
+	actions: __WEBPACK_IMPORTED_MODULE_5__actions__["a" /* default */]
+}));
 
 /***/ })
 /******/ ]);
