@@ -30,12 +30,6 @@
 </template>
 
 <script>
-	/**
-	 * A single task is represented here as a row with a checkbox, text, and
-	 * edit/delete buttons. When edited or deleted, the task notifies the
-	 * API, and when deleted, it also notifies the Tasks parent.
-	 */
-
 	export default {
 
 		data() {
@@ -68,20 +62,13 @@
 			},
 
 			deleteBtnClicked() {
-				axios.delete('/api/v1/tasks/' + this.task.id)
-					.then(response => {
-						this.$emit('taskDeleted');
-					})
-					.catch(error => {
-						alert(error.response.data);
-					});
+				this.$store.dispatch('deleteTask', {
+					id: this.task.id,
+					name: this.task.name,
+					complete: this.task.complete
+				});				
 			},
 
-			/**
-			 * When we leave the input, we exist the edit mode. It's time
-			 * to update the tasks with the API. Note that it'd be better
-			 * to first check if the task name was actually modified.
-			 */
 			nameInputBlurred() {				
 				this.editMode = false;
 
@@ -92,18 +79,11 @@
 				this.taskUpdated();
 			},
 
-			/**
-			 * You can debate whether a task should be concerned with updating its
-			 * state. We could instead issue an event and delegate to our shared
-			 * store to update the task. This would be easier with Vuex though.
-			 */
 			taskUpdated() {
-				axios.put('/api/v1/tasks/' + this.task.id, {
+				this.$store.dispatch('updateTask', {
+					id: this.task.id,
 					name: this.task.name,
 					complete: this.task.complete
-				})
-				.catch(error => {
-					alert(error.response.data);
 				});
 			}
 		}

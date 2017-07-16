@@ -31,7 +31,7 @@
 						<form @submit.prevent="formSubmitted">
 							<div class="field">
 								<p class="control">
-									<input class="input" placeholder="Name" v-model="name">
+									<input class="input" placeholder="Name" v-model="name" required>
 								</p>
 							</div>
 							<div class="field">
@@ -55,12 +55,6 @@
 </template>
 
 <script>
-	/**
-	 * This header contains a form to create new tasks. When a task is
-	 * created on the back-end, the component fires off an event, so
-	 * so that the Tasks parent can add it to the shared store.
-	 */
-
 	export default {
 
 		data() {
@@ -74,28 +68,22 @@
 
 		methods: {
 			formSubmitted() {
-				axios.post('/api/v1/tasks', {
+
+				this.$store.dispatch('createTask', {
 					name: this.name,
 					complete: this.complete
-				})
-				.then(response => {
-					this.$emit('taskCreated', response.data);
-
-					// Reset the form
-					this.name = '';
-					this.complete = false;
-
-					// Show a notification and hide after 2 s
-					this.taskCreated = true;
-
-					setTimeout(() => {
-						this.taskCreated = false;
-						this.toggleForm = false;
-					}, 2000);
-				})
-				.catch(error => {
-					alert(error.response.data);
 				});
+
+				// Reset the form
+				this.name = '';
+				this.complete = false;
+
+				// Show a notification and hide after 2 s
+				this.taskCreated = true;
+
+				setTimeout(() => {
+					this.taskCreated = false;
+				}, 2000);				
 			}
 		}
 
