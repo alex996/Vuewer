@@ -2164,7 +2164,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 				setTimeout(function () {
 					_this.taskCreated = false;
-					_this.toggleForm = false;
 				}, 2000);
 			}).catch(function (error) {
 				alert(error.response.data);

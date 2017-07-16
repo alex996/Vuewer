@@ -90,7 +90,6 @@
 
 					setTimeout(() => {
 						this.taskCreated = false;
-						this.toggleForm = false;
 					}, 2000);
 				})
 				.catch(error => {
