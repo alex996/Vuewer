@@ -83,7 +83,7 @@
 
 				setTimeout(() => {
 					this.taskCreated = false;
-				}, 2000);				
+				}, 2000);
 			}
 		}
 
