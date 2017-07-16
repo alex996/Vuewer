@@ -1,6 +1,6 @@
 <template>
 	<li class="task">
-		<input type="checkbox" v-model="task.complete" @change="updateTask">
+		<input type="checkbox" v-model="task.complete" @click="updateTask">
 
 		<span v-if="! editMode">
 			<span ref="taskNameText">{{ task.name }}</span>
