@@ -73,7 +73,7 @@
 "use strict";
 
 
-var bind = __webpack_require__(9);
+var bind = __webpack_require__(10);
 
 /*global toString:true*/
 
@@ -454,10 +454,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(5);
+    adapter = __webpack_require__(6);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(5);
+    adapter = __webpack_require__(6);
   }
   return adapter;
 }
@@ -811,6 +811,12 @@ function applyToTag (styleElement, obj) {
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = __webpack_require__(14);
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
@@ -819,7 +825,7 @@ var settle = __webpack_require__(20);
 var buildURL = __webpack_require__(23);
 var parseHeaders = __webpack_require__(29);
 var isURLSameOrigin = __webpack_require__(27);
-var createError = __webpack_require__(8);
+var createError = __webpack_require__(9);
 var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(22);
 
 module.exports = function xhrAdapter(config) {
@@ -992,7 +998,7 @@ module.exports = function xhrAdapter(config) {
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1018,7 +1024,7 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1030,7 +1036,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1054,7 +1060,7 @@ module.exports = function createError(message, config, code, response) {
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1072,7 +1078,7 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11146,13 +11152,13 @@ module.exports = Vue$3;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(54)))
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__store__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_tasks_Tasks_vue__ = __webpack_require__(44);
@@ -11173,16 +11179,10 @@ var app = new __WEBPACK_IMPORTED_MODULE_1_vue___default.a({
 });
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(14);
 
 /***/ }),
 /* 14 */
@@ -11192,7 +11192,7 @@ module.exports = __webpack_require__(14);
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(9);
+var bind = __webpack_require__(10);
 var Axios = __webpack_require__(16);
 var defaults = __webpack_require__(2);
 
@@ -11227,9 +11227,9 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(6);
+axios.Cancel = __webpack_require__(7);
 axios.CancelToken = __webpack_require__(15);
-axios.isCancel = __webpack_require__(7);
+axios.isCancel = __webpack_require__(8);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -11250,7 +11250,7 @@ module.exports.default = axios;
 "use strict";
 
 
-var Cancel = __webpack_require__(6);
+var Cancel = __webpack_require__(7);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -11467,7 +11467,7 @@ module.exports = InterceptorManager;
 
 var utils = __webpack_require__(0);
 var transformData = __webpack_require__(21);
-var isCancel = __webpack_require__(7);
+var isCancel = __webpack_require__(8);
 var defaults = __webpack_require__(2);
 
 /**
@@ -11577,7 +11577,7 @@ module.exports = function enhanceError(error, config, code, response) {
 "use strict";
 
 
-var createError = __webpack_require__(8);
+var createError = __webpack_require__(9);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -12056,6 +12056,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -12075,34 +12078,40 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	methods: {
-		switchToEditMode: function switchToEditMode() {
+		editModeActivated: function editModeActivated() {
 			var _this = this;
 
 			// Calculate <input> size based on task name in <span> (+ some extra padding)
 			this.width = this.$refs.taskNameText.offsetWidth + 12 + 'px';
+			// Switch to edit mode
 			this.editMode = true;
 
-			// Make a timeout to give the DOM some time and then focus the <input>
+			// Vue uses async rendering, so the if-block will not be rendered immediately
+			// (ref. https://vuejs.org/v2/guide/reactivity.html). To wait until it does,
+			// we'll set a timeout and only then focus the <input>.
 			this.$nextTick(function () {
 				return _this.$refs.taskNameInput.focus();
 			});
 		},
-		deleteBtnClicked: function deleteBtnClicked() {
+		editModeDectivated: function editModeDectivated(event) {
+			// Remember that v-model="task.name" is equivalent to :value="task.name" and
+			// @input="task.name = event.target.value"? We don't want HTTP PUT to be
+			// triggered on every keystroke, but only when you exit the edit mode.
+			// Therefore, we update the task name only once on this method call.
+			this.task.name = event.target.value;
+			// Exit from edit mode
+			this.editMode = false;
+
+			this.updateTask();
+		},
+		deleteTask: function deleteTask() {
 			this.$store.dispatch('deleteTask', {
 				id: this.task.id,
 				name: this.task.name,
 				complete: this.task.complete
 			});
 		},
-		nameInputBlurred: function nameInputBlurred() {
-			this.editMode = false;
-
-			this.taskUpdated();
-		},
-		completeCheckboxChanged: function completeCheckboxChanged() {
-			this.taskUpdated();
-		},
-		taskUpdated: function taskUpdated() {
+		updateTask: function updateTask() {
 			this.$store.dispatch('updateTask', {
 				id: this.task.id,
 				name: this.task.name,
@@ -12314,7 +12323,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 
 
@@ -12346,10 +12355,10 @@ if (token) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(53);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
 
 
@@ -12385,7 +12394,13 @@ var mutations = {
 		state.tasks.push(task);
 	},
 	updateTask: function updateTask(state, task) {
-		//
+		state.tasks.map(function (someTask) {
+			if (someTask.id === task.id) {
+				someTask = task;
+			}
+
+			return someTask;
+		});
 	},
 	deleteTask: function deleteTask(state, task) {
 		state.tasks = state.tasks.filter(function (someTask) {
@@ -12411,7 +12426,7 @@ var actions = {
 	},
 	updateTask: function updateTask(context, task) {
 		__WEBPACK_IMPORTED_MODULE_2_axios___default.a.put('/api/v1/tasks/' + task.id, task).then(function (response) {
-			//context.commit('updateTask', response.data);
+			context.commit('updateTask', response.data);
 		}).catch(function (error) {
 			alert(error.response.data);
 		});
@@ -12993,7 +13008,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "checked": Array.isArray(_vm.task.complete) ? _vm._i(_vm.task.complete, null) > -1 : (_vm.task.complete)
     },
     on: {
-      "change": _vm.completeCheckboxChanged,
+      "change": _vm.updateTask,
       "__c": function($event) {
         var $$a = _vm.task.complete,
           $$el = $event.target,
@@ -13016,34 +13031,30 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v(_vm._s(_vm.task.name))]), _vm._v(" "), _c('button', {
     staticClass: "button is-small is-info",
     on: {
-      "click": _vm.switchToEditMode
+      "click": _vm.editModeActivated
     }
   }, [_vm._m(0)])]) : _c('span', [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.task.name),
-      expression: "task.name"
-    }],
     ref: "taskNameInput",
     staticClass: "input task-input",
     style: ({
       width: _vm.width
     }),
     domProps: {
-      "value": (_vm.task.name)
+      "value": _vm.task.name
     },
     on: {
-      "blur": _vm.nameInputBlurred,
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.task.name = $event.target.value
+      "blur": function($event) {
+        _vm.editModeDectivated($event)
+      },
+      "keyup": function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
+        _vm.editModeDectivated($event)
       }
     }
   }), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _c('button', {
     staticClass: "button is-small is-danger",
     on: {
-      "click": _vm.deleteBtnClicked
+      "click": _vm.deleteTask
     }
   }, [_vm._m(2)])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -14072,8 +14083,8 @@ module.exports = g;
 /* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(11);
-module.exports = __webpack_require__(12);
+__webpack_require__(12);
+module.exports = __webpack_require__(13);
 
 
 /***/ })

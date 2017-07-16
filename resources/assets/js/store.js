@@ -34,7 +34,13 @@ const mutations = {
 	},
 
 	updateTask(state, task) {
-		//
+		state.tasks.map(someTask => {
+			if (someTask.id === task.id) {
+				someTask = task;
+			}
+
+			return someTask;
+		})
 	},
 
 	deleteTask(state, task) {
@@ -67,7 +73,7 @@ const actions = {
 	updateTask(context, task) {
 		axios.put('/api/v1/tasks/' + task.id, task)
 			.then(response => {
-				//context.commit('updateTask', response.data);
+				context.commit('updateTask', response.data);
 			})
 			.catch(error => {
 				alert(error.response.data);

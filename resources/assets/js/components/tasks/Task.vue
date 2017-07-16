@@ -1,18 +1,21 @@
 <template>
 	<li class="task">
-		<input type="checkbox" v-model="task.complete" @change="completeCheckboxChanged">
+		<input type="checkbox" v-model="task.complete" @change="updateTask">
 
 		<span v-if="! editMode">
 			<span ref="taskNameText">{{ task.name }}</span>
 
-			<button class="button is-small is-info" @click="switchToEditMode">
+			<button class="button is-small is-info" @click="editModeActivated">
 				<span class="icon is-small">
 					<i class="fa fa-pencil" aria-hidden="true"></i>
 				</span>
 			</button>
 		</span>
 		<span v-else>
-			<input class="input task-input" v-model="task.name" ref="taskNameInput" @blur="nameInputBlurred" :style="{ width: width }">
+			<input class="input task-input" ref="taskNameInput"
+				   :value="task.name" :style="{ width: width }"
+				   @blur="editModeDectivated($event)"
+				   @keyup.enter="editModeDectivated($event)">
 
 			<button class="button is-small is-primary">
 				<span class="icon is-small">
@@ -21,7 +24,7 @@
 			</button>
 		</span>		
 
-		<button class="button is-small is-danger" @click="deleteBtnClicked">
+		<button class="button is-small is-danger" @click="deleteTask">
 			<span class="icon is-small">
 				<i class="fa fa-times" aria-hidden="true"></i>
 			</span>
@@ -50,18 +53,33 @@
 		},
 
 		methods: {
-			switchToEditMode() {
+			editModeActivated() {
 				// Calculate <input> size based on task name in <span> (+ some extra padding)
 				this.width = this.$refs.taskNameText.offsetWidth + 12 + 'px';
+				// Switch to edit mode
 				this.editMode = true;
 
-				// Make a timeout to give the DOM some time and then focus the <input>
+				// Vue uses async rendering, so the if-block will not be rendered immediately
+				// (ref. https://vuejs.org/v2/guide/reactivity.html). To wait until it does,
+				// we'll set a timeout and only then focus the <input>.
 				this.$nextTick(() =>
 					this.$refs.taskNameInput.focus()
 				);
 			},
 
-			deleteBtnClicked() {
+			editModeDectivated(event) {
+				// Remember that v-model="task.name" is equivalent to :value="task.name" and
+				// @input="task.name = event.target.value"? We don't want HTTP PUT to be
+				// triggered on every keystroke, but only when you exit the edit mode.
+				// Therefore, we update the task name only once on this method call.
+				this.task.name = event.target.value;
+				// Exit from edit mode
+				this.editMode = false;
+
+				this.updateTask();
+			},
+
+			deleteTask() {
 				this.$store.dispatch('deleteTask', {
 					id: this.task.id,
 					name: this.task.name,
@@ -69,17 +87,7 @@
 				});				
 			},
 
-			nameInputBlurred() {				
-				this.editMode = false;
-
-				this.taskUpdated();
-			},
-
-			completeCheckboxChanged() {
-				this.taskUpdated();
-			},
-
-			taskUpdated() {
+			updateTask() {
 				this.$store.dispatch('updateTask', {
 					id: this.task.id,
 					name: this.task.name,
