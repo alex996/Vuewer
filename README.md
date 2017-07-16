@@ -6,7 +6,7 @@ Vuewer is meant to demonstrate basic use of Vue.js in Laravel. It makes use of [
 
 ## Installation
 
-1. Run `git clone https://github.com/alex996/Vuewer vuewer`
+1. Run `git clone https://github.com/alex996/Vuewer vuewer` and `cd vuewer`
 2. Also run `php artisan key:generate` to safeguard against cipher exceptions
 3. Create a `.env` file and enter your DB credentials
 4. Finally, run `php artisan migrate --seed`
