@@ -12097,12 +12097,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			// Remember that v-model="task.name" is equivalent to :value="task.name" and
 			// @input="task.name = event.target.value"? We don't want HTTP PUT to be
 			// triggered on every keystroke, but only when you exit the edit mode.
-			// Therefore, we update the task name only once on this method call.
-			this.task.name = event.target.value;
+
 			// Exit from edit mode
 			this.editMode = false;
 
-			this.updateTask();
+			// We'll update the task name only if it actually changed. This will also
+			// prevent the HTTP PUT from being sent twice, once on the @blur event
+			// and second on the @key presss (there could be a better way btw).
+			var newName = event.target.value;
+			if (this.task.name !== newName) {
+				this.task.name = newName;
+				this.updateTask();
+			}
 		},
 		deleteTask: function deleteTask() {
 			this.$store.dispatch('deleteTask', {
@@ -12360,6 +12366,11 @@ if (token) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(53);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__store_mutations__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__store_actions__ = __webpack_require__(63);
+
+
+
 
 
 
@@ -12386,65 +12397,11 @@ var getters = {
 	}
 };
 
-var mutations = {
-	setTasks: function setTasks(state, tasks) {
-		state.tasks = tasks;
-	},
-	createTask: function createTask(state, task) {
-		state.tasks.push(task);
-	},
-	updateTask: function updateTask(state, task) {
-		state.tasks.map(function (someTask) {
-			if (someTask.id === task.id) {
-				someTask = task;
-			}
-
-			return someTask;
-		});
-	},
-	deleteTask: function deleteTask(state, task) {
-		state.tasks = state.tasks.filter(function (someTask) {
-			return someTask.id !== task.id;
-		});
-	}
-};
-
-var actions = {
-	loadTasks: function loadTasks(context) {
-		__WEBPACK_IMPORTED_MODULE_2_axios___default.a.get('/api/v1/tasks').then(function (response) {
-			context.commit('setTasks', response.data);
-		}).catch(function (error) {
-			alert(error.response.data);
-		});
-	},
-	createTask: function createTask(context, task) {
-		__WEBPACK_IMPORTED_MODULE_2_axios___default.a.post('/api/v1/tasks', task).then(function (response) {
-			context.commit('createTask', response.data);
-		}).catch(function (error) {
-			alert(error.response.data);
-		});
-	},
-	updateTask: function updateTask(context, task) {
-		__WEBPACK_IMPORTED_MODULE_2_axios___default.a.put('/api/v1/tasks/' + task.id, task).then(function (response) {
-			context.commit('updateTask', response.data);
-		}).catch(function (error) {
-			alert(error.response.data);
-		});
-	},
-	deleteTask: function deleteTask(context, task) {
-		__WEBPACK_IMPORTED_MODULE_2_axios___default.a.delete('/api/v1/tasks/' + task.id).then(function (response) {
-			context.commit('deleteTask', task);
-		}).catch(function (error) {
-			alert(error.response.data);
-		});
-	}
-};
-
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
 	state: state,
 	getters: getters,
-	mutations: mutations,
-	actions: actions
+	mutations: __WEBPACK_IMPORTED_MODULE_3__store_mutations__["a" /* default */],
+	actions: __WEBPACK_IMPORTED_MODULE_4__store_actions__["a" /* default */]
 }));
 
 /***/ }),
@@ -14086,6 +14043,77 @@ module.exports = g;
 __webpack_require__(12);
 module.exports = __webpack_require__(13);
 
+
+/***/ }),
+/* 56 */,
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+	loadTasks: function loadTasks(context) {
+		axios.get('/api/v1/tasks').then(function (response) {
+			context.commit('setTasks', response.data);
+		}).catch(function (error) {
+			alert(error.response.data);
+		});
+	},
+	createTask: function createTask(context, task) {
+		axios.post('/api/v1/tasks', task).then(function (response) {
+			context.commit('createTask', response.data);
+		}).catch(function (error) {
+			alert(error.response.data);
+		});
+	},
+	updateTask: function updateTask(context, task) {
+		axios.put('/api/v1/tasks/' + task.id, task).then(function (response) {
+			context.commit('updateTask', response.data);
+		}).catch(function (error) {
+			alert(error.response.data);
+		});
+	},
+	deleteTask: function deleteTask(context, task) {
+		axios.delete('/api/v1/tasks/' + task.id).then(function (response) {
+			context.commit('deleteTask', task);
+		}).catch(function (error) {
+			alert(error.response.data);
+		});
+	}
+});
+
+/***/ }),
+/* 64 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+	setTasks: function setTasks(state, tasks) {
+		state.tasks = tasks;
+	},
+	createTask: function createTask(state, task) {
+		state.tasks.push(task);
+	},
+	updateTask: function updateTask(state, task) {
+		state.tasks.map(function (someTask) {
+			if (someTask.id === task.id) {
+				someTask = task;
+			}
+
+			return someTask;
+		});
+	},
+	deleteTask: function deleteTask(state, task) {
+		state.tasks = state.tasks.filter(function (someTask) {
+			return someTask.id !== task.id;
+		});
+	}
+});
 
 /***/ })
 /******/ ]);

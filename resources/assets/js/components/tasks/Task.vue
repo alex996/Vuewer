@@ -71,12 +71,18 @@
 				// Remember that v-model="task.name" is equivalent to :value="task.name" and
 				// @input="task.name = event.target.value"? We don't want HTTP PUT to be
 				// triggered on every keystroke, but only when you exit the edit mode.
-				// Therefore, we update the task name only once on this method call.
-				this.task.name = event.target.value;
+
 				// Exit from edit mode
 				this.editMode = false;
 
-				this.updateTask();
+				// We'll update the task name only if it actually changed. This will also
+				// prevent the HTTP PUT from being sent twice, once on the @blur event
+				// and second on the @key presss (there could be a better way btw).
+				let newName = event.target.value;
+				if (this.task.name !== newName) {
+					this.task.name = newName;
+					this.updateTask();
+				}
 			},
 
 			deleteTask() {
