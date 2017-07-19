@@ -12,6 +12,4 @@ Vuewer is meant to demonstrate basic use of Vue.js in Laravel. It makes use of [
 4. Finally, run `php artisan migrate --seed`
 5. (Optional) If you want to play with the code, don't forget `npm install`
 
-## Note
-
-To keep it simple, we only make use of Laravel's built-in request-response system. If you want to scale up your API, you'd have to upgrade it to incorporate more features, such as transformers, pagination, or authentication. For starters, check out [Incremental APIs](https://laracasts.com/series/incremental-api-development) series on Laracasts. If you want to jump right in and start coding, check out the awesome [Dingo API package](https://github.com/dingo/api) which already includes a ton of goodies like [JWT Auth](https://github.com/tymondesigns/jwt-auth) and [Fractal](http://fractal.thephpleague.com/) out of the box.
+> **Note**: To keep it simple, we only make use of Laravel's built-in request-response system. If you want to scale up your API, you'd have to upgrade it to incorporate more features, such as transformers, pagination, or authentication. For starters, check out [Incremental APIs](https://laracasts.com/series/incremental-api-development) series on Laracasts. If you want to jump right in and start coding, check out the awesome [Dingo API package](https://github.com/dingo/api) which already includes a ton of goodies like [JWT Auth](https://github.com/tymondesigns/jwt-auth) and [Fractal](http://fractal.thephpleague.com/) out of the box.
