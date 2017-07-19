@@ -1,6 +1,6 @@
 ![Vuewer](https://user-images.githubusercontent.com/15240969/28244625-3e8cb114-69bd-11e7-8039-f2634e1c94c6.png)
 
-**Update:** If you want to see a cleaner **Vuex** implementation, visit the [vuex branch](https://github.com/alex996/Vuewer/tree/vuex).
+> **Update:** If you want to see a cleaner **Vuex** implementation, visit the [vuex branch](https://github.com/alex996/Vuewer/tree/vuex).
 
 Vuewer is meant to demonstrate basic use of Vue.js in Laravel. It makes use of [single-file components](https://vuejs.org/v2/guide/single-file-components.html) embedded into Blade and communicates with the API using [Axios](https://github.com/mzabriskie/axios). This app will show you examples of parent-child communication, attribute binding, and many more.
 
